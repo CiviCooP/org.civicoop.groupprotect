@@ -33,10 +33,23 @@ class CRM_Groupprotect_BAO_GroupProtect {
    */
   public static function pre($op, $objectName, $objectId, $params) {
     if ($objectName == 'GroupContact' && self::groupIsProtected($objectId) == TRUE) {
-      if (!CRM_Core_Permission::check('manage protected groups')) {
-        CRM_Core_Session::setStatus(ts("You are not allowed to add or remove contacts to this group"), ts("Not allowed"), "error");
-        $session = CRM_Core_Session::singleton();
-        CRM_Utils_System::redirect($session->readUserContext());
+      // check if request is from webform, and allow groupcontact action if from webform
+      $webFormRequest = FALSE;
+      $request = CRM_Utils_Request::exportValues();
+      if (isset($request['form_id'])) {
+        $requestParts = explode('_', $request['form_id']);
+        if (isset($requestParts[2])) {
+          if ($requestParts[0] == 'webform' && $requestParts[1] == 'client' && $requestParts[2] = 'form') {
+            $webFormRequest = TRUE;
+          }
+        }
+      }
+      if (!$webFormRequest) {
+        if (!CRM_Core_Permission::check('manage protected groups')) {
+          CRM_Core_Session::setStatus(ts("You are not allowed to add or remove contacts to this group"), ts("Not allowed"), "error");
+          $session = CRM_Core_Session::singleton();
+          CRM_Utils_System::redirect($session->readUserContext());
+        }
       }
     }
   }

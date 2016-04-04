@@ -5,3 +5,5 @@ This extension adds a custom data set to groups and adds a permission (CiviCRM G
 
 The custom group adds a field for the Group: protected Yes or No. This settings can only be edited by users with the permission CiviCRM Group Protect.
 Only users with the permission CiviCRM Group Protect can add or remove contacts from a protected group.
+
+The check on if a group is allowed is skipped if the request originates from a Drupal Webform
