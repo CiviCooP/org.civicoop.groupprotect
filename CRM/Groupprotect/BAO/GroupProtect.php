@@ -46,8 +46,8 @@ class CRM_Groupprotect_BAO_GroupProtect {
       if (!$webFormRequest) {
         if (!CRM_Core_Permission::check('manage protected groups')) {
           CRM_Core_Session::setStatus(ts("You are not allowed to add or remove contacts to this group"), ts("Not allowed"), "error");
-          // if from FindExpert report, redirect to entryURL
-          if (isset($request['_qf_default']) && $request['_qf_default'] == "FindExpert:submit") {
+          // if from report, redirect to report instance
+          if (isset($request['q']) && substr($request['q'], 0, 15) == "civicrm/report/") {
             CRM_Utils_System::redirect(CRM_Utils_System::url($request['q'], 'reset=1', true));
           } else {
             $session = CRM_Core_Session::singleton();
