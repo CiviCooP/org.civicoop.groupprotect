@@ -9,8 +9,6 @@
  */
 class CRM_Groupprotect_BAO_GroupProtect {
 
-  // TODO: if group is_reserved -> set protect = yes
-
   /**
    * Method to process civicrm buildForm hook
    *
@@ -31,7 +29,8 @@ class CRM_Groupprotect_BAO_GroupProtect {
    * When user does not have permission, redirect to user context with status message
    *
    */
-  public static function pre($op, $objectName, $objectId, $params) {
+  public static function pre($op, $objectName, $objectId, $params)
+  {
     if ($objectName == 'GroupContact' && self::groupIsProtected($objectId) == TRUE) {
       // check if request is from webform, and allow groupcontact action if from webform
       $webFormRequest = FALSE;
@@ -47,8 +46,13 @@ class CRM_Groupprotect_BAO_GroupProtect {
       if (!$webFormRequest) {
         if (!CRM_Core_Permission::check('manage protected groups')) {
           CRM_Core_Session::setStatus(ts("You are not allowed to add or remove contacts to this group"), ts("Not allowed"), "error");
-          $session = CRM_Core_Session::singleton();
-          CRM_Utils_System::redirect($session->readUserContext());
+          // if from FindExpert report, redirect to entryURL
+          if (isset($request['_qf_default']) && $request['_qf_default'] == "FindExpert:submit") {
+            CRM_Utils_System::redirect(CRM_Utils_System::url($request['q'], 'reset=1', true));
+          } else {
+            $session = CRM_Core_Session::singleton();
+            CRM_Utils_System::redirect($session->readUserContext());
+          }
         }
       }
     }
