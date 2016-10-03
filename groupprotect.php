@@ -1,6 +1,9 @@
 <?php
 
 require_once 'groupprotect.civix.php';
+require_once 'CRM/Groupprotect/BAO/GroupProtect.php';
+
+
 
 /**
  * Implements hook_civicrm_pre for specific extension processing
