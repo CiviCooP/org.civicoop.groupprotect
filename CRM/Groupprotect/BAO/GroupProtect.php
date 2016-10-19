@@ -10,6 +10,19 @@
 class CRM_Groupprotect_BAO_GroupProtect {
 
   /**
+   * This variable is used to bypass the permission check. This is used
+   * from the action Add to Protected group in CiviRules. The action sets the bypass and then adds the contact
+   * to the group.
+   *
+   * @var bool
+   */
+  private static $bypassPermissionCheck = false;
+
+  public static function bypassPermissionCheck() {
+    self::$bypassPermissionCheck = true;
+  }
+
+  /**
    * Method to process civicrm buildForm hook
    *
    * User can only manage group settings for non-protected groups or if user has permissions
@@ -44,7 +57,7 @@ class CRM_Groupprotect_BAO_GroupProtect {
         }
       }
       if (!$webFormRequest) {
-        if (!CRM_Core_Permission::check('manage protected groups')) {
+        if (!CRM_Core_Permission::check('manage protected groups') && !self::$bypassPermissionCheck) {
           CRM_Core_Session::setStatus(ts("You are not allowed to add or remove contacts to this group"), ts("Not allowed"), "error");
           // if from report, redirect to report instance
           if (isset($request['q']) && substr($request['q'], 0, 15) == "civicrm/report/") {
