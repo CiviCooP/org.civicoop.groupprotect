@@ -3,19 +3,6 @@
 require_once 'groupprotect.civix.php';
 
 /**
- * Implements hook_civicrm_pre for specific extension processing
- *
- * @param $op
- * @param $objectName
- * @param $objectId
- * @param $params
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_pre
- */
-function groupprotect_civicrm_pre($op, $objectName, $objectId, $params) {
-  CRM_Groupprotect_BAO_GroupProtect::pre($op, $objectName, $objectId, $params);
-}
-
-/**
  * Implements hook_civicrm_buildForm for specific extension processing
  *
  * @param $formName
@@ -26,6 +13,33 @@ function groupprotect_civicrm_buildForm($formName, &$form) {
   CRM_Groupprotect_BAO_GroupProtect::buildForm($formName, $form);
 }
 
+/**
+ * Implements hook_civicrm_searchTasks for specific extension processing
+ *
+ * @param $objectName
+ * @param $tasks
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_searchTasks*
+ */
+function groupprotect_civicrm_searchTasks($objectName, &$tasks) {
+  CRM_Groupprotect_BAO_GroupProtect::searchTasks($objectName, $tasks);
+}
+/**
+ * Implements hook_civicrm_apiWrappers
+ *
+ * @param $wrappers
+ * @param $apiRequest
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_apiWrappers
+ */
+function groupprotect_civicrm_apiWrappers(&$wrappers, $apiRequest) {
+  // todo complete wrapper and implement
+  if ($apiRequest['entity'] == 'GroupContact') {
+    //$wrappers[] = new CRM_Groupprotect_GroupContactApiWrapper();
+  }
+}
+
+function groupprotect_civicrm_pageRun( &$page ) {
+  CRM_Groupprotect_BAO_GroupProtect::pageRun($page);
+}
 /**
  * Implements hook_civicrm_permission
  *
