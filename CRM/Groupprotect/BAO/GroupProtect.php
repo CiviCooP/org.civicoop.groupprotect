@@ -23,6 +23,7 @@ class CRM_Groupprotect_BAO_GroupProtect {
     }
   }
 
+
   /**
    * Method to process civicrm buildForm hook
    *

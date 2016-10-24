@@ -65,6 +65,22 @@ function groupprotect_civicrm_config(&$config) {
   _groupprotect_civix_civicrm_config($config);
 }
 
+function _groupprotect_is_civirules_installed() {
+  $installed = false;
+  try {
+    $extensions = civicrm_api3('Extension', 'get');
+    foreach($extensions['values'] as $ext) {
+      if ($ext['key'] == 'org.civicoop.civirules' && $ext['status'] == 'installed') {
+        $installed = true;
+      }
+    }
+    return $installed;
+  } catch (Exception $e) {
+    return false;
+  }
+  return false;
+}
+
 /**
  * Implements hook_civicrm_xmlMenu().
  *
