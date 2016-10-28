@@ -13,6 +13,23 @@ function groupprotect_civicrm_buildForm($formName, &$form) {
   CRM_Groupprotect_BAO_GroupProtect::buildForm($formName, $form);
 }
 
+function groupprotect_civicrm_validateForm($formName, &$fields, &$files, &$form, &$errors) {
+  CRM_Groupprotect_BAO_GroupProtect::validateForm($formName, $fields, $files, $form, $errors);
+}
+/**
+ * Implements hook_civicrm_alterTemplateFile for specific extension processing
+ *
+ * @param $formName
+ * @param $form
+ * @param $context
+ * @param $tplName
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_alterTemplateFile
+ *
+ */
+function groupprotect_civicrm_alterTemplateFile($formName, &$form, $context, &$tplName) {
+  CRM_Groupprotect_BAO_GroupProtect::alterTemplateFile($formName, $form, $context, $tplName);
+}
+
 /**
  * Implements hook_civicrm_searchTasks for specific extension processing
  *

@@ -53,6 +53,13 @@
         </tr>
         </thead>
         {foreach from=$groupIn item=row}
+          {assign var='actionItemsAllowed' value=1}
+          {crmAPI var='result' entity='Group' action='getprotect' group_id=$row.group_id}
+          {foreach from=$result.values item=group}
+            {if $group.protected AND !$userHasProtectGroup}
+              {assign var='actionItemsAllowed' value=0}
+            {/if}
+          {/foreach}
           <tr id="group_contact-{$row.id}" class="crm-entity {cycle values="odd-row,even-row"}">
             <td class="bold">
               <a href="{crmURL p='civicrm/group/search' q="reset=1&force=1&context=smog&gid=`$row.group_id`"}">
@@ -62,14 +69,7 @@
             <td>{ts 1=$row.in_method}Added (by %1){/ts}</td>
             <td>{$row.in_date|crmDate}</td>
             <td>
-              {assign var='actionItemsAllowed' value=1}
-              {crmAPI var='result' entity='Group' action='getprotect' group_id=$row.group_id}
-              {foreach from=$result.values item=group}
-                {if $group.protected AND !$userHasProtectGroup}
-                  {assign var='actionItemsAllowed' value=0}
-                {/if}
-              {/foreach}
-              {if $permission EQ 'edit' AND $actionItemsAllowed}
+              {if $permission EQ 'edit' and $actionItemsAllowed}
                 <a class="action-item crm-hover-button" href="#Removed" title={ts 1=$displayName 2=$row.title}Remove %1 from %2? (status in this group will be changed to 'Removed').{/ts}">
                   {ts}Remove{/ts}</a>
                 <a class="action-item crm-hover-button" href="#Deleted" title="{ts 1=$displayName 2=$row.title}Delete %1 from %2? (remove contact AND delete their record of having been in this group).{/ts}">
@@ -175,6 +175,7 @@
                 {assign var='actionItemsAllowed' value=0}
               {/if}
             {/foreach}
+            <td>
             {if $permission EQ 'edit' AND $actionItemsAllowed}
                 <a class="action-item crm-hover-button" href="#Added" title="{ts 1=$displayName 2=$row.title}Add %1 back into %2?{/ts}">
                   {ts}Rejoin Group{/ts}</a>

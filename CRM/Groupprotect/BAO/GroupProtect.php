@@ -8,11 +8,52 @@
  * @license AGPL-3.0
  */
 class CRM_Groupprotect_BAO_GroupProtect {
+
+  /**
+   * Method to process civicrm validateForm hook
+   * @param $formName
+   * @param $fields
+   * @param $files
+   * @param $form
+   * @param $errors
+   */
+  public static function validateForm($formName, &$fields, &$files, &$form, &$errors) {
+    if ($formName == 'CRM_Contact_Form_GroupContact') {
+      if (self::userProtectPermitted() == FALSE) {
+        if (self::groupIsProtected($fields['group_id']) == TRUE) {
+          $errors['group_id'] = 'You are not allowed to add to this group';
+        }
+      }
+    }
+  }
+  /**
+   * Method to process civicrm alterTemplateFile hook
+   *
+   * @param $formName
+   * @param $form
+   * @param $context
+   * @param $tplName
+   */
+  public static function alterTemplateFile($formName, &$form, $context, &$tplName) {
+    if ($formName == "CRM_Contact_Page_View_GroupContact") {
+      $domainVersion = civicrm_api3('Domain', 'getvalue', array('return' => 'version'));
+      $version = substr($domainVersion,0,3);
+      switch ($version) {
+        case '4.6':
+          $tplName = 'GroupContact46.tpl';
+          break;
+        case '4.7':
+          $tplName = 'GroupContact47.tpl';
+          break;
+      }
+    }
+
+
+  }
   /**
    * Method to process civicrm pageRun hook
    *
    * action items only allowed for unprotected groups or if user has permission
-   * // todo now fixed in copy of template in extension, fix with core fix using jQuery
    *
    * @param object page
    */
@@ -35,7 +76,6 @@ class CRM_Groupprotect_BAO_GroupProtect {
    * @static
    */
   public static function buildForm($formName, &$form) {
-    // todo make sure groups are NOT removed in smog contact? if possible....
     if (self::userProtectPermitted() == FALSE) {
       switch ($formName) {
         case 'CRM_Group_Form_Edit':
@@ -49,6 +89,13 @@ class CRM_Groupprotect_BAO_GroupProtect {
           self::removeProtectedGroups($form);
           break;
         case 'CRM_Contact_Form_GroupContact':
+          self::removeProtectedGroups($form);
+          break;
+        case 'CRM_Contact_Form_Search_Basic':
+          $groupId = $form->getVar('_groupID');
+          if ($groupId && self::groupIsProtected($groupId)) {
+            CRM_Core_Region::instance('page-body')->add(array('template' => 'RemoveAddToGroupButton.tpl'));
+          }
           break;
       }
     }
