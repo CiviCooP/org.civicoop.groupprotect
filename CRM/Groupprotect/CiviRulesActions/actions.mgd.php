@@ -34,3 +34,6 @@ if (_groupprotect_is_civirules_installed()) {
       ),
   );
 }
+else {
+  return array();
+}
