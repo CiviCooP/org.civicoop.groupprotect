@@ -36,15 +36,13 @@ class CRM_Groupprotect_BAO_GroupProtect {
    */
   public static function alterTemplateFile($formName, &$form, $context, &$tplName) {
     if ($formName == "CRM_Contact_Page_View_GroupContact") {
-      $domainVersion = civicrm_api3('Domain', 'getvalue', array('return' => 'version'));
+      $domainVersion = civicrm_api3('System', 'getvalue', array('return' => 'version'));
       $version = substr($domainVersion,0,3);
-      switch ($version) {
-        case '4.6':
-          $tplName = 'GroupContact46.tpl';
-          break;
-        case '4.7':
-          $tplName = 'GroupContact47.tpl';
-          break;
+      if ($version == 4.6) {
+        $tplName = 'GroupContact46.tpl';
+      }
+      else {
+        $tplName = 'GroupContact47.tpl';
       }
     }
 
