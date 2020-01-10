@@ -102,17 +102,19 @@ class CRM_Groupprotect_BAO_GroupProtect {
   /**
    * Method to remove protected groups from option lists
    *
-   * @param $form
+   * @param CRM_Core_Form $form
    * @access private
    * @static
    */
   private static function removeProtectedGroups(&$form) {
-    $groupElement = $form->getElement('group_id');
-    $options = &$groupElement->_options;
-    foreach ($options as $optionId => $optionValues) {
-      if (!empty($optionValues['attr']['value'])) {
-        if (self::groupIsProtected($optionValues['attr']['value']) == TRUE) {
-          unset($options[$optionId]);
+    if ($form->elementExists('group_id')) {
+      $groupElement = $form->getElement('group_id');
+      $options = &$groupElement->_options;
+      foreach ($options as $optionId => $optionValues) {
+        if (!empty($optionValues['attr']['value'])) {
+          if (self::groupIsProtected($optionValues['attr']['value']) == TRUE) {
+            unset($options[$optionId]);
+          }
         }
       }
     }
