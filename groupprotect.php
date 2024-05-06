@@ -3,6 +3,7 @@
 require_once 'groupprotect.civix.php';
 require_once 'CRM/Groupprotect/BAO/GroupProtect.php';
 
+use CRM_Groupprotect_ExtensionUtil as E;
 
 
 /**
@@ -67,9 +68,9 @@ function groupprotect_civicrm_pageRun( &$page ) {
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_permission
  */
 function groupprotect_civicrm_permission(&$permissions) {
-  $prefix = ts('CiviCRM Group Protect') . ': ';
+  $prefix = E::ts('CiviCRM Group Protect') . ': ';
   $permissions['manage protected groups'] = [
-    'label' => $prefix . ts('manage protected groups'),
+    'label' => $prefix . E::ts('manage protected groups'),
   ];
 }
 
