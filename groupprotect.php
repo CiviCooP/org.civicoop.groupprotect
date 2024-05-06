@@ -68,7 +68,9 @@ function groupprotect_civicrm_pageRun( &$page ) {
  */
 function groupprotect_civicrm_permission(&$permissions) {
   $prefix = ts('CiviCRM Group Protect') . ': ';
-  $permissions['manage protected groups'] = $prefix . ts('manage protected groups');
+  $permissions['manage protected groups'] = [
+    'label' => $prefix . ts('manage protected groups'),
+  ];
 }
 
 /**
