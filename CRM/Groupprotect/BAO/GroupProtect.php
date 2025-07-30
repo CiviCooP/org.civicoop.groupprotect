@@ -185,7 +185,7 @@ class CRM_Groupprotect_BAO_GroupProtect {
     $config = CRM_Groupprotect_Config::singleton();
     $query = "SELECT ".$config->getGroupProtectCustomField('column_name')." FROM ".
       $config->getGroupProtectCustomGroup('table_name')." WHERE entity_id = %1";
-    return CRM_Core_DAO::singleValueQuery($query, array(1 => array($groupId, 'Integer')));
+    return CRM_Core_DAO::singleValueQuery($query, array(1 => array($groupId, 'Integer'))) ?? 0;
   }
 
   /**
