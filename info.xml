@@ -14,7 +14,7 @@
     <url desc="Support">http://www.civicoop.org</url>
     <url desc="Licensing">http://www.gnu.org/licenses/agpl-3.0.html</url>
   </urls>
-  <releaseDate></releaseDate>
+  <releaseDate/>
   <version>2.5-dev</version>
   <develStage>dev</develStage>
   <compatibility>
@@ -23,11 +23,11 @@
   <comments>Extension is being tested</comments>
   <civix>
     <namespace>CRM/Groupprotect</namespace>
-    <format>23.02.1</format>
+    <format>25.01.1</format>
   </civix>
   <mixins>
     <mixin>mgd-php@1.0.0</mixin>
-    <mixin>smarty-v2@1.0.1</mixin>
+    <mixin>smarty-v2@1.0.3</mixin>
   </mixins>
   <classloader>
     <psr0 prefix="CRM_" path="."/>
