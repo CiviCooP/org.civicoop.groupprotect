@@ -54,12 +54,12 @@ class CRM_Groupprotect_Config {
   /**
    * Gets or creates custom groups (with custom fields) for group_protect
    *
-   * @throws API_Exception when unable to find or create custom group
+   * @throws CRM_Core_Exception when unable to find or create custom group
    */
   private function setGroupProtectCustomGroup() {
     try {
       $customGroup = civicrm_api3('CustomGroup', 'Getsingle', array('name' => 'group_protect'));
-    } catch (CiviCRM_API3_Exception $ex) {
+    } catch (CRM_Core_Exception $ex) {
       $customGroupParams = array(
         'name' => 'group_protect',
         'extends' => 'Group',
@@ -72,8 +72,8 @@ class CRM_Groupprotect_Config {
         foreach ($createdGroup['values'] as $createdGroupId => $createdGroup) {
           $customGroup = $createdGroup;
         }
-      } catch (CiviCRM_API3_Exception $ex) {
-        throw new API_Exception('Could not create custom group "group_protect" nor find an existing one.
+      } catch (CRM_Core_Exception $ex) {
+        throw new CRM_Core_Exception('Could not create custom group "group_protect" nor find an existing one.
           Error from API CustomGroup Create: '.$ex->getMessage(), 9010);
       }
     }
@@ -85,7 +85,7 @@ class CRM_Groupprotect_Config {
    * Method to create custom field for group protect
    * @param $customGroupId
    * @return array
-   * @throws API_Exception
+   * @throws CRM_Core_Exception
    */
   private function setGroupProtectCustomField($customGroupId) {
     $customField = array();
@@ -96,7 +96,7 @@ class CRM_Groupprotect_Config {
       try {
         $retrievedField = civicrm_api3('CustomField', 'Getsingle', $findFieldParams);
         $customField[$retrievedField['id']] = $retrievedField;
-      } catch (CiviCRM_API3_Exception $ex) {
+      } catch (CRM_Core_Exception $ex) {
         $createFieldParams = array(
           'custom_group_id' => $customGroupId,
           'name' => 'group_protect',
@@ -111,8 +111,8 @@ class CRM_Groupprotect_Config {
           foreach ($createdField['values'] as $createdFieldId => $createdField) {
             $customField[$createdFieldId] = $createdField;
           }
-        } catch (CiviCRM_API3_Exception $ex) {
-          throw new API_Exception('Could not create custom field "group_protect" nor find an existing one.
+        } catch (CRM_Core_Exception $ex) {
+          throw new CRM_Core_Exception('Could not create custom field "group_protect" nor find an existing one.
           Error from API CustomField Create: '.$ex->getMessage(), 9011);
         }
       }
