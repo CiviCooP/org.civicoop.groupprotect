@@ -19,7 +19,7 @@ function _civicrm_api3_group_Getprotect_spec(&$spec) {
  * @return array API result descriptor
  * @see civicrm_api3_create_success
  * @see civicrm_api3_create_error
- * @throws API_Exception
+ * @throws CRM_Core_Exception
  */
 function civicrm_api3_group_Getprotect($params) {
   if (array_key_exists('group_id', $params)) {
@@ -30,7 +30,7 @@ function civicrm_api3_group_Getprotect($params) {
     );
     return civicrm_api3_create_success($result, $params, 'Group', 'getprotect');
   } else {
-    throw new API_Exception('You need to pass parameter group_id to the Group getprotect AP',  1000);
+    throw new CRM_Core_Exception('You need to pass parameter group_id to the Group getprotect AP',  1000);
   }
 }
 
