@@ -13,7 +13,7 @@ class CRM_Groupprotect_Config {
   static private $_singleton = NULL;
 
   // property holds the custom group for protected groups with custom fields in array ['custom_fields']
-  protected $_groupProtectCustomGroup = array();
+  protected $_groupProtectCustomGroup = [];
 
   /**
    * CRM_Groupprotect_Config constructor.
@@ -58,15 +58,15 @@ class CRM_Groupprotect_Config {
    */
   private function setGroupProtectCustomGroup() {
     try {
-      $customGroup = civicrm_api3('CustomGroup', 'Getsingle', array('name' => 'group_protect'));
+      $customGroup = civicrm_api3('CustomGroup', 'Getsingle', ['name' => 'group_protect']);
     } catch (CRM_Core_Exception $ex) {
-      $customGroupParams = array(
+      $customGroupParams = [
         'name' => 'group_protect',
         'extends' => 'Group',
         'title' => 'Protect Group',
         'table_name' => 'civicrm_value_group_protect',
         'is_active' => 1,
-        'is_reserved' => 1);
+        'is_reserved' => 1];
       try {
         $createdGroup = civicrm_api3('CustomGroup', 'Create', $customGroupParams);
         foreach ($createdGroup['values'] as $createdGroupId => $createdGroup) {
@@ -88,16 +88,16 @@ class CRM_Groupprotect_Config {
    * @throws CRM_Core_Exception
    */
   private function setGroupProtectCustomField($customGroupId) {
-    $customField = array();
+    $customField = [];
     if (!empty($customGroupId)) {
-      $findFieldParams = array(
+      $findFieldParams = [
         'name' => 'group_protect',
-        'custom_group_id' => $customGroupId);
+        'custom_group_id' => $customGroupId];
       try {
         $retrievedField = civicrm_api3('CustomField', 'Getsingle', $findFieldParams);
         $customField[$retrievedField['id']] = $retrievedField;
       } catch (CRM_Core_Exception $ex) {
-        $createFieldParams = array(
+        $createFieldParams = [
           'custom_group_id' => $customGroupId,
           'name' => 'group_protect',
           'label' => 'Protect Group?',
@@ -105,7 +105,7 @@ class CRM_Groupprotect_Config {
           'data_type' => 'Boolean',
           'html_type' => 'Radio',
           'is_searchable' => 1,
-          'is_active' => 1);
+          'is_active' => 1];
         try {
           $createdField = civicrm_api3('CustomField', 'Create', $createFieldParams);
           foreach ($createdField['values'] as $createdFieldId => $createdField) {

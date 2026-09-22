@@ -36,7 +36,7 @@ class CRM_Groupprotect_BAO_GroupProtect {
    */
   public static function alterTemplateFile($formName, &$form, $context, &$tplName) {
     if ($formName == "CRM_Contact_Page_View_GroupContact") {
-      $domainVersion = civicrm_api3('System', 'getvalue', array('return' => 'version'));
+      $domainVersion = civicrm_api3('System', 'getvalue', ['return' => 'version']);
       $version = substr($domainVersion,0,3);
       if ($version == 4.6) {
         $tplName = 'GroupContact46.tpl';
@@ -78,7 +78,7 @@ class CRM_Groupprotect_BAO_GroupProtect {
       switch ($formName) {
         case 'CRM_Group_Form_Edit':
           // todo only non-ACL groups
-          CRM_Core_Region::instance('page-body')->add(array('template' => 'GroupProtect.tpl'));
+          CRM_Core_Region::instance('page-body')->add(['template' => 'GroupProtect.tpl']);
           break;
         case 'CRM_Contact_Form_Task_AddToGroup':
           self::removeProtectedGroups($form);
@@ -92,7 +92,7 @@ class CRM_Groupprotect_BAO_GroupProtect {
         case 'CRM_Contact_Form_Search_Basic':
           $groupId = $form->getVar('_groupID');
           if ($groupId && self::groupIsProtected($groupId)) {
-            CRM_Core_Region::instance('page-body')->add(array('template' => 'RemoveAddToGroupButton.tpl'));
+            CRM_Core_Region::instance('page-body')->add(['template' => 'RemoveAddToGroupButton.tpl']);
           }
           break;
       }
@@ -185,7 +185,7 @@ class CRM_Groupprotect_BAO_GroupProtect {
     $config = CRM_Groupprotect_Config::singleton();
     $query = "SELECT ".$config->getGroupProtectCustomField('column_name')." FROM ".
       $config->getGroupProtectCustomGroup('table_name')." WHERE entity_id = %1";
-    return CRM_Core_DAO::singleValueQuery($query, array(1 => array($groupId, 'Integer'))) ?? 0;
+    return CRM_Core_DAO::singleValueQuery($query, [1 => [$groupId, 'Integer']]) ?? 0;
   }
 
   /**
