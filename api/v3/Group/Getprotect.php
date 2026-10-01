@@ -24,10 +24,10 @@ function _civicrm_api3_group_Getprotect_spec(&$spec) {
 function civicrm_api3_group_Getprotect($params) {
   if (array_key_exists('group_id', $params)) {
     $isProtected = CRM_Groupprotect_BAO_GroupProtect::groupIsProtected($params['group_id']);
-    $result[$params['group_id']] = array(
+    $result[$params['group_id']] = [
       'group_id' => $params['group_id'],
       'protected' => $isProtected
-    );
+    ];
     return civicrm_api3_create_success($result, $params, 'Group', 'getprotect');
   } else {
     throw new CRM_Core_Exception('You need to pass parameter group_id to the Group getprotect AP',  1000);

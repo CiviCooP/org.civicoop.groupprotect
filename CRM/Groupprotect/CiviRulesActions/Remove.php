@@ -33,15 +33,15 @@ class CRM_Groupprotect_CiviRulesActions_Remove extends CRM_CivirulesActions_Grou
     $contactId = $triggerData->getContactId();
 
     $action_params = $this->getActionParameters();
-    $group_ids = array();
+    $group_ids = [];
     if (!empty($action_params['group_id'])) {
-      $group_ids = array($action_params['group_id']);
+      $group_ids = [$action_params['group_id']];
     } elseif (!empty($action_params['group_ids']) && is_array($action_params['group_ids'])) {
       $group_ids = $action_params['group_ids'];
     }
     foreach($group_ids as $group_id) {
       if (CRM_CivirulesConditions_Utils_GroupContact::isContactInGroup($contactId, $group_id)) {
-        $params = array();
+        $params = [];
         $params['group_id'] = $group_id;
 
         //alter parameters by subclass
