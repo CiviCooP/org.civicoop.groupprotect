@@ -1,3 +1,5 @@
+This extension is currently not used by any of my customers and is not kept up to date with the CiviCRM versions.
+
 # org.civicoop.groupprotect
 CiviCRM native extension to allow protection for groups (unpermitted users can not add or remove contacts to group)
 
