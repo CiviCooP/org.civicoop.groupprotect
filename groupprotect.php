@@ -1,7 +1,6 @@
 <?php
 
 require_once 'groupprotect.civix.php';
-require_once 'CRM/Groupprotect/BAO/GroupProtect.php';
 
 use CRM_Groupprotect_ExtensionUtil as E;
 
@@ -82,7 +81,6 @@ function groupprotect_civicrm_permission(&$permissions) {
 function groupprotect_civicrm_config(&$config) {
 
   // get extension config so custom group/field are created if not exist yet
-  require_once 'CRM/Groupprotect/Config.php';
   CRM_Groupprotect_Config::singleton();
 
   _groupprotect_civix_civicrm_config($config);
